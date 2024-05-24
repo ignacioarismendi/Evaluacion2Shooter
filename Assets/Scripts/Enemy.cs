@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int health = 100;
-    private Animator _ac;
-
-    private void Awake()
-    {
-        _ac = transform.GetChild(0).GetComponent<Animator>();
-    }
+    public int maxHealth = 100;
+    private int currentHealth;
+    private Vector3 initialPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentHealth = maxHealth;
+        initialPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -24,15 +21,20 @@ public class Enemy : MonoBehaviour
         
     }
 
-
-    public void Damage(int dmg) {
-        if(health > 0) { 
-            health -= dmg;
-
-            if (health <= 0) {
-                _ac.Play("Death");
-            }
+    public void Damage(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+        Debug.Log("Enemy Health: " + currentHealth); // Muestra la vida actual del enemigo en la consola
+        if (currentHealth <= 0)
+        {
+            Die();
         }
     }
 
+    private void Die()
+    {
+        // Lógica para reiniciar la salud y la posición
+        currentHealth = maxHealth;
+        transform.position = initialPosition;
+    }
 }

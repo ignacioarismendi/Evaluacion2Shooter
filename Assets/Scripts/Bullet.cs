@@ -7,7 +7,6 @@ public class Bullet : MonoBehaviour
     private float lifetime = 3.0f;
     private int damage;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +23,16 @@ public class Bullet : MonoBehaviour
         damage = dmg;
     }
 
-    private void DestroyBullet() { Destroy(this.gameObject); }
+    private void DestroyBullet() 
+    { 
+        Destroy(this.gameObject); 
+    }
 
-
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.gameObject.layer == 9) {
-            Enemy e = collision.transform.gameObject.GetComponent<Enemy>();
+        Enemy e = other.GetComponent<Enemy>();
+        if (e != null)
+        {
             e.Damage(damage);
         }
 
